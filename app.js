@@ -6,12 +6,17 @@ import webpack from 'webpack'
 import webpackConfig from './webpack.config'
 import webpackMiddleware from "webpack-dev-middleware";
 
-const compiler = webpack(webpackConfig);
 const app = express();
 
-// Set up webpack hot reloading
-app.use(webpackMiddleware(webpack(webpackConfig)));
-app.use(require("webpack-hot-middleware")(compiler));
+const isDevelopment = process.env.NODE_ENV !== "production";
+
+if (isDevelopment)  {
+  const compiler = webpack(webpackConfig);
+  // Set up webpack hot reloading
+  app.use(webpackMiddleware(webpack(webpackConfig)));
+
+  app.use(require("webpack-hot-middleware")(compiler));
+}
 
 // View engine setup
 app.set("views", path.join(__dirname, "client/views"));
