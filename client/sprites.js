@@ -36,11 +36,14 @@ function startSprites (app) {
   function loadImages() {
     PIXI.loader
       .add([
-        "images/bg2.png",
-        "images/bg-far.png",
+        "images/bgfade.png",
+        "images/bgfade-mobile.png",
         "images/closed-clam.png",
         "images/open-clam.png",
         "images/skyline2.png",
+        "images/skyline2-green1.png",
+        "images/skyline2-mobile.png",
+        "images/skyline2-mobile-green.png",
         "images/light-green.png",
         "images/dark-green.png",
         "images/razorclams.png",
@@ -71,23 +74,28 @@ function startSprites (app) {
       wordWrapWidth: app.screen.width / 2
     });
 
-    const biggestStyle = new PIXI.TextStyle({
+    const styleMobile = new PIXI.TextStyle({
       fontFamily: "Trade Winds",
-      fontSize: 50,
+      fontSize: 24,
       fill: "#FFFFFF",
       wordWrap: true,
       wordWrapWidth: app.screen.width / 2
     });
 
+    const isMobile = app.screen.width <= 450
+    const bigTextStyle = isMobile ? styleMobile : biggerStyle
+    const normalTextStyle = isMobile ? styleMobile : style;
 
-    const farTexture = PIXI.loader.resources["images/bg2.png"].texture
-    const far = new PIXI.extras.TilingSprite(farTexture, app.screen.width, farTexture.height);
+
+
+    const farTexture = isMobile ? PIXI.loader.resources["images/bgfade-mobile.png"].texture : PIXI.loader.resources["images/bgfade.png"].texture
+    const far = new PIXI.extras.TilingSprite(farTexture, app.screen.width, app.screen.height);
     far.anchor.x = 0;
     far.anchor.y = 1;
     TweenLite.set(far, {
       pixi: {
         x: 0,
-        y: farTexture.height,
+        y: app.screen.height,
         tilePosition: {
           x: 0,
           y: 0
@@ -97,24 +105,20 @@ function startSprites (app) {
     });
     app.stage.addChild(far);
 
-
-
-    const skylineAnimTextures = [];
-    for (var img of ["images/skyline2-green1.png"]) {
-      skylineAnimTextures.push(PIXI.Texture.fromImage(img));
-    }
-    const skylineAnim = new PIXI.extras.AnimatedSprite(skylineAnimTextures);
-    skylineAnim.anchor.x = 0;
-    skylineAnim.anchor.y = 1;
-    TweenLite.set(skylineAnim, {
-      pixi: { x: -60, y: app.screen.height },
+    const skylineBackgroundTexture = isMobile ? PIXI.loader.resources["images/skyline2-mobile-green.png"].texture : PIXI.loader.resources["images/skyline2-green1.png"].texture;
+    const skylineBackground = new PIXI.extras.TilingSprite(skylineBackgroundTexture, skylineBackgroundTexture.width, skylineBackgroundTexture.height);
+    skylineBackground.anchor.x = 0;
+    skylineBackground.anchor.y = 1;
+    TweenLite.set(skylineBackground, {
+      pixi: {
+        x: -60, // TODO WEIRD
+        y: app.screen.height
+      },
       alpha: 0
-    }); // TODO WEIRD
-    skylineAnim.animationSpeed = 0.05;
-    skylineAnim.play();
-    app.stage.addChild(skylineAnim);
+    });
+    app.stage.addChild(skylineBackground);
 
-    const skylineTexture = PIXI.loader.resources["images/skyline2.png"].texture;
+    const skylineTexture = isMobile ? PIXI.loader.resources["images/skyline2-mobile.png"].texture : PIXI.loader.resources["images/skyline2.png"].texture;
     const skyline = new PIXI.extras.TilingSprite(skylineTexture, skylineTexture.width, skylineTexture.height);
     skyline.anchor.x = 0;
     skyline.anchor.y = 1;
@@ -127,7 +131,7 @@ function startSprites (app) {
     });
     app.stage.addChild(skyline);
 
-    const richText = new PIXI.Text("The year is 2023.", style);
+    const richText = new PIXI.Text("The year is 2023.", normalTextStyle);
     TweenLite.set(richText, {
       pixi: {
         x: app.screen.width / 2,
@@ -138,7 +142,7 @@ function startSprites (app) {
     });
     app.stage.addChild(richText);
 
-    const worldAboveText = new PIXI.Text("The world above has been devastated by a nuclear catastrophe.", style);
+    const worldAboveText = new PIXI.Text("The world above has been devastated by a nuclear catastrophe.", normalTextStyle);
     TweenLite.set(worldAboveText, {
       pixi: {
         x: app.screen.width / 2,
@@ -149,7 +153,7 @@ function startSprites (app) {
     });
     app.stage.addChild(worldAboveText);
 
-    const worldBelowText = new PIXI.Text("The world below is dominated by...", style);
+    const worldBelowText = new PIXI.Text("The world below is dominated by...", normalTextStyle);
     TweenLite.set(worldBelowText, {
       pixi: {
         x: app.screen.width / 2,
@@ -160,7 +164,7 @@ function startSprites (app) {
     });
     app.stage.addChild(worldBelowText);
 
-    const clamsText = new PIXI.Text("CLAMS", biggerStyle);
+    const clamsText = new PIXI.Text("CLAMS", bigTextStyle);
     TweenLite.set(clamsText, {
       pixi: {
         x: app.screen.width / 2,
@@ -171,10 +175,7 @@ function startSprites (app) {
     });
     app.stage.addChild(clamsText);
 
-
-
-
-    const battleText = new PIXI.Text("Will you survive the melee and conquer the ocean?", style);
+    const battleText = new PIXI.Text("Will you survive the melee and conquer the ocean?", normalTextStyle);
     TweenLite.set(battleText, {
       pixi: {
         x: app.screen.width / 2,
@@ -215,7 +216,6 @@ function startSprites (app) {
     const clams = []
     const clamTimeline = new TimelineLite()
     const clamOutlineTimeline = new TimelineLite();
-    const clamDisappearTimeline = new TimelineLite();
     const outlineFilterRed = new GlowFilter(15, 2, 1, 0xff9999, 0.5);
 
     for (let i = 0; i < 16; i++) {
@@ -254,7 +254,7 @@ function startSprites (app) {
       clamOutlineTimeline.to(sprite, 2, { pixi: { filters: [outlineFilterRed] } }, "clamsOutline");
     }
 
-    const thisText = new PIXI.Text("THIS", biggestStyle);
+    const thisText = new PIXI.Text("THIS", bigTextStyle);
     TweenLite.set(thisText, {
       pixi: {
         x: app.screen.width / 2,
@@ -265,7 +265,7 @@ function startSprites (app) {
     });
     app.stage.addChild(thisText);
 
-    const isText = new PIXI.Text("IS", biggestStyle);
+    const isText = new PIXI.Text("IS", bigTextStyle);
     TweenLite.set(isText, {
       pixi: {
         x: app.screen.width / 2,
@@ -276,7 +276,7 @@ function startSprites (app) {
     });
     app.stage.addChild(isText);
 
-    const battleclamsText = new PIXI.Text("BATTLECLAMS", biggestStyle);
+    const battleclamsText = new PIXI.Text("BATTLECLAMS", bigTextStyle);
     TweenLite.set(battleclamsText, {
       pixi: {
         x: app.screen.width / 2,
@@ -311,14 +311,11 @@ function startSprites (app) {
       .addLabel("skylinesAppear")
       .to(worldAboveText, 3, { alpha: 1 }, "skylinesAppear")
       .to(skyline, 1, { alpha: 1 }, "skylinesAppear")
-      .to(skylineAnim, 3, { alpha: 1 }, "skylinesAppear")
+      .to(skylineBackground, 3, { alpha: 1 }, "skylinesAppear")
       .to(worldAboveText, 2, { alpha: 0 })
       .addLabel("skylinesDisappear")
-      .to(skylineAnim, 5, { pixi: { y: 0 } }, "skylinesDisappear")
+      .to(skylineBackground, 5, { pixi: { y: 0 } }, "skylinesDisappear")
       .to(skyline, 5, { pixi: { y: 0 } }, "skylinesDisappear")
-      // .to(skylineAnim, 3, { alpha: 0 }, "skylinesDisappear")
-      // .to(skyline, 0, { alpha: 0 })
-      // .to(worldAboveText, 3, { alpha: 0 }, "skylinesDisappear")
       .to(worldBelowText, 2, { alpha: 1 }, "-=1")
       .to(worldBelowText, 2, { alpha: 0 })
       .to(far, 4, { alpha: 1, pixi: { y: app.screen.height } })
@@ -337,8 +334,6 @@ function startSprites (app) {
       .to(isText, 2, { alpha: 1 }, "clamsAfterOutline")
       .to(isText, 1, { alpha: 0 })
       .staggerTo(clams, 0.5, { alpha: 0 }, 0.5, "clamsAfterOutline")
-      // .add(clamDisappearTimeline, "clamsDisappear")
-
       .addLabel("battleInfoAppears")
       .to("#skip", 0, { visibility: "hidden" })
       .to(battleclamsText, 2, { alpha: 1 })

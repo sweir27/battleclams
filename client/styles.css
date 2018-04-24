@@ -126,10 +126,7 @@ img.logo-selector {
 }
 
 .next-button {
-  /* position: absolute; */
-  /* bottom: 50px; */
   position: relative;
-  /* left: 17%; */
   font-family: 'Trade Winds';
   font-size: 16px;
   color: white;

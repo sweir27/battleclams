@@ -33,15 +33,15 @@ app.use(express.static('dist'));
 
 // Routes
 app.get("/", (req, res) => {
-  res.render("index", { title: "Battlebutts" });
+  res.render("index", { title: "What's your battleclam?" });
 });
 
 app.get("/whats-your-battleclam", (req, res) => {
-  res.render("battleclam", { title: "Battlebutts" });
+  res.render("battleclam", { title: "What's your battleclam?" });
 });
 
 app.get("/clams/:type", (req, res) => {
-  res.render("battleclam", { title: "Battlebutts" });
+  res.render("battleclam", { title: "What's your battleclam?" });
 });
 
 // Catch 404 and forward to error handler
