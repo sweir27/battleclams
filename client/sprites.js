@@ -86,8 +86,6 @@ function startSprites (app) {
     const bigTextStyle = isMobile ? styleMobile : biggerStyle
     const normalTextStyle = isMobile ? styleMobile : style;
 
-
-
     const farTexture = isMobile ? PIXI.loader.resources["images/bgfade-mobile.png"].texture : PIXI.loader.resources["images/bgfade.png"].texture
     const far = new PIXI.extras.TilingSprite(farTexture, app.screen.width, app.screen.height);
     far.anchor.x = 0;
@@ -164,7 +162,7 @@ function startSprites (app) {
     });
     app.stage.addChild(worldBelowText);
 
-    const clamsText = new PIXI.Text("CLAMS", bigTextStyle);
+    const clamsText = new PIXI.Text("CLAMS", biggerStyle);
     TweenLite.set(clamsText, {
       pixi: {
         x: app.screen.width / 2,
@@ -218,7 +216,9 @@ function startSprites (app) {
     const clamOutlineTimeline = new TimelineLite();
     const outlineFilterRed = new GlowFilter(15, 2, 1, 0xff9999, 0.5);
 
-    for (let i = 0; i < 16; i++) {
+
+    const numClams = isMobile ? 3 : 10
+    for (let i = 0; i < numClams; i++) {
       const spriteObj = spriteOptions[Math.floor(Math.random() * spriteOptions.length)];
       let sprite;
       if (spriteObj.anim == true) {
@@ -254,7 +254,7 @@ function startSprites (app) {
       clamOutlineTimeline.to(sprite, 2, { pixi: { filters: [outlineFilterRed] } }, "clamsOutline");
     }
 
-    const thisText = new PIXI.Text("THIS", bigTextStyle);
+    const thisText = new PIXI.Text("THIS", biggerStyle);
     TweenLite.set(thisText, {
       pixi: {
         x: app.screen.width / 2,
@@ -265,7 +265,7 @@ function startSprites (app) {
     });
     app.stage.addChild(thisText);
 
-    const isText = new PIXI.Text("IS", bigTextStyle);
+    const isText = new PIXI.Text("IS", biggerStyle);
     TweenLite.set(isText, {
       pixi: {
         x: app.screen.width / 2,
@@ -311,7 +311,7 @@ function startSprites (app) {
       .addLabel("skylinesAppear")
       .to(worldAboveText, 3, { alpha: 1 }, "skylinesAppear")
       .to(skyline, 1, { alpha: 1 }, "skylinesAppear")
-      .to(skylineBackground, 3, { alpha: 1 }, "skylinesAppear")
+      .to(skylineBackground, 3, { alpha: 1 }, "-=1")
       .to(worldAboveText, 2, { alpha: 0 })
       .addLabel("skylinesDisappear")
       .to(skylineBackground, 5, { pixi: { y: 0 } }, "skylinesDisappear")
@@ -319,7 +319,6 @@ function startSprites (app) {
       .to(worldBelowText, 2, { alpha: 1 }, "-=1")
       .to(worldBelowText, 2, { alpha: 0 })
       .to(far, 4, { alpha: 1, pixi: { y: app.screen.height } })
-
       .to(clamsText, 1, { alpha: 1 }, "-=1")
       .addLabel("clams")
       .to(clamsText, 1, { alpha: 0 })
