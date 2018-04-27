@@ -39,12 +39,14 @@ function calculateClamScore(scores) {
 class BattleclamContainer extends React.Component {
   constructor() {
     super();
-    const preOrder = Array.from(Array(questions.length).keys());
+    const numQuestions = 12;
+    const preOrder = Array.from(Array(numQuestions).keys());
     const shuffledOrder = shuffleArray(preOrder)
     this.state = {
       questionIndex: 0,
       scores: {},
-      order: shuffledOrder
+      order: shuffledOrder,
+      numQuestions
     };
   }
 
@@ -64,7 +66,7 @@ class BattleclamContainer extends React.Component {
   render() {
     const shuffledIndex = this.state.order[this.state.questionIndex]
     const currentQuestion = questions[shuffledIndex];
-    const lastQuestion = this.state.questionIndex + 1 >= questions.length;
+    const lastQuestion = this.state.questionIndex + 1 >= this.state.numQuestions;
     return (
       <div className="battleclam-container">
         <Title title="What's your battleclam?" />

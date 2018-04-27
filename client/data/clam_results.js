@@ -182,7 +182,7 @@ export default [
   {
     name: "perna viridis",
     id: "perna-viridis",
-    img: "clams/perna-veridis.png",
+    img: "clams/perna-viridis.png",
     description: "Perna viridis, known as the Asian green mussel, is an economically important mussel, a bivalve belonging to the family Mytilidae. It is harvested for food but is also known to harbor toxins and cause damage to submerged structures such as drainage pipes. The perna viridis is highly interested in the arcane arts and is fearsome in battle due to its mastery of magical essences.",
     attributes: {
       fun: -1,
@@ -262,7 +262,7 @@ export default [
   {
     name: "blood clam",
     id: "blood-clam",
-    img: "clams/blodd-clam.png",
+    img: "clams/blood-clam.png",
     description: "Tegillarca granosa (also known as Anadara granosa) is a species of ark clam known as the blood cockle or blood clam due to the red haemoglobin liquid inside the soft tissues. Considered by more superstitious clams to be evil, the blood clam relishes this outsider role and considers isolation a key to successfully vying for ocean domination.",
     attributes: {
       fun: 5,
