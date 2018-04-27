@@ -1,21 +1,23 @@
 const path = require("path");
 const webpack = require('webpack')
 
+const entry =
+  process.env.NODE_ENV === "production"
+    ? {
+        intro: ["./client/intro.js"],
+        battleclam: ["./client/battleclam.js"]
+      }
+    : {
+        intro: ["./client/intro.js", "webpack-hot-middleware/client"],
+        battleclam: ["./client/battleclam.js", "webpack-hot-middleware/client"]
+      };
+
 module.exports = {
   mode: "development",
   devServer: {
     stats: "errors-only"
   },
-  entry: {
-    intro: [
-      "./client/intro.js",
-      "webpack-hot-middleware/client"
-    ],
-    battleclam: [
-      "./client/battleclam.js",
-      "webpack-hot-middleware/client"
-    ]
-  },
+  entry: entry,
   output: {
     path: path.join(__dirname, "dist"),
     publicPath: "/dist/",

@@ -40,14 +40,10 @@ class BattleclamContainer extends React.Component {
   constructor() {
     super();
     const numQuestions = 12;
-    const preOrder = Array.from(Array(numQuestions).keys());
+    const preOrder = Array.from(Array(questions.length).keys());
     const shuffledOrder = shuffleArray(preOrder)
-    this.state = {
-      questionIndex: 0,
-      scores: {},
-      order: shuffledOrder,
-      numQuestions
-    };
+    const slicedOrder = shuffledOrder.slice(0, numQuestions)
+    this.state = { questionIndex: 0, scores: {}, order: slicedOrder, numQuestions };
   }
 
   advanceQuestion = scoreModifier => {
