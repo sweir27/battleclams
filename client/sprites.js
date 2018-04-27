@@ -20,6 +20,14 @@ function resize(app) {
   app.view.style.height = window.innerHeight + "px";
 }
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array
+}
+
 function startSprites (app) {
   window.addEventListener("resize", resize(app));
 
@@ -33,27 +41,37 @@ function startSprites (app) {
     }
   });
 
+  const clamImages = [
+    "images/clams/atlantic-surf-clam.png",
+    "images/clams/blood-clam.png",
+    "images/clams/blue-mussel.png",
+    "images/clams/common-cockle.png",
+    "images/clams/maxima-clam.png",
+    "images/clams/great-scallop.png",
+    "images/clams/grooved-carpet-shell.png",
+    "images/clams/hard-clam.png",
+    "images/clams/pacific-oyster.png",
+    "images/clams/pearl-oyster.png",
+    "images/clams/perna-viridis.png",
+    "images/clams/pinna-nobilis.png",
+    "images/clams/razor-clam.png",
+    "images/clams/tuatua.png",
+    "images/clams/warty-venus.png"
+  ]
+
+  const animationImages = [
+    "images/bgfade.png",
+    "images/bgfade-mobile.png",
+    "images/skyline2.png",
+    "images/skyline2-green1.png",
+    "images/skyline2-mobile.png",
+    "images/skyline2-mobile-green.png",
+    "images/logo.png"
+  ]
+
   function loadImages() {
     PIXI.loader
-      .add([
-        "images/bgfade.png",
-        "images/bgfade-mobile.png",
-        "images/closed-clam.png",
-        "images/open-clam.png",
-        "images/skyline2.png",
-        "images/skyline2-green1.png",
-        "images/skyline2-mobile.png",
-        "images/skyline2-mobile-green.png",
-        "images/light-green.png",
-        "images/dark-green.png",
-        "images/razorclams.png",
-        "images/clamclosed.png",
-        "images/clam.png",
-        "images/clamback.png",
-        "images/clamunder.png",
-        "images/logo.png",
-        "images/giant-clam.png"
-      ])
+      .add(animationImages.concat(clamImages))
       .load(setup);
   }
 
@@ -89,7 +107,7 @@ function startSprites (app) {
     const farTexture = isMobile ? PIXI.loader.resources["images/bgfade-mobile.png"].texture : PIXI.loader.resources["images/bgfade.png"].texture
     const far = new PIXI.extras.TilingSprite(farTexture, app.screen.width, app.screen.height);
     far.anchor.x = 0;
-    far.anchor.y = 1;
+    far.anchor.y = 0;
     TweenLite.set(far, {
       pixi: {
         x: 0,
@@ -184,56 +202,30 @@ function startSprites (app) {
     });
     app.stage.addChild(battleText);
 
-
-    // CLAMS
-    let textureArray = [];
-    for (var img of ["images/closed-clam.png", "images/open-clam.png"]) {
-      let texture = PIXI.Texture.fromImage(img);
-      textureArray.push(texture);
-    }
-
-    let textureArray2 = [];
-    for (var clamImg of ["images/clam.png", "images/clamclosed.png"]) {
-      const blah = PIXI.Texture.fromImage(clamImg);
-      textureArray2.push(blah);
-    }
-
-    const spriteOptions = [
-      { spriteSource: textureArray, scale: 0.1, anim: true },
-      { spriteSource: textureArray, scale: 0.1, anim: true },
-      { spriteSource: textureArray, scale: 0.1, anim: true },
-      { spriteSource: textureArray2, scale: 0.5, anim: true },
-      { spriteSource: textureArray2, scale: 0.5, anim: true },
-      { spriteSource: textureArray2, scale: 0.5, anim: true },
-      { spriteSource: PIXI.loader.resources["images/giant-clam.png"].texture, scale: 1, anim: false },
-      { spriteSource: PIXI.loader.resources["images/razorclams.png"].texture, scale: 0.1, anim: false }
-    ];
-
-    const animSpeeds = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06]
     const staggeredHeight = [2, 2.5, 3]
     const clams = []
     const clamTimeline = new TimelineLite()
     const clamOutlineTimeline = new TimelineLite();
     const outlineFilterRed = new GlowFilter(15, 2, 1, 0xff9999, 0.5);
+    const numClams = isMobile ? 3 : 7
 
+    const preClamOrder = Array.from(Array(clamImages.length).keys());
+    const shuffledOrder = shuffleArray(preClamOrder);
+    const clamChoices = shuffledOrder.slice(0, numClams);
 
-    const numClams = isMobile ? 3 : 10
     for (let i = 0; i < numClams; i++) {
-      const spriteObj = spriteOptions[Math.floor(Math.random() * spriteOptions.length)];
+      const spriteSource = clamImages[clamChoices[i]];
       let sprite;
-      if (spriteObj.anim == true) {
-        sprite = new PIXI.extras.AnimatedSprite(spriteObj.spriteSource);
-        const speed = animSpeeds[Math.floor(Math.random() * animSpeeds.length)];
-        sprite.animationSpeed = speed;
-        sprite.play()
+      sprite = new PIXI.Sprite(PIXI.loader.resources[spriteSource].texture);
+
+      if (isMobile) {
+        sprite.scale.set(0.2);
       } else {
-        sprite = new PIXI.Sprite(spriteObj.spriteSource);
+        sprite.scale.set(0.4)
       }
 
-      sprite.scale.set(spriteObj.scale)
-
-      const minX = sprite.width / 2
-      const maxX = app.screen.width - sprite.width;
+      const pixelDiff = (app.screen.width - sprite.width) / numClams
+      const x = (pixelDiff * i + 1) + sprite.width / 2
 
       const heightMargin = staggeredHeight[Math.floor(Math.random() * staggeredHeight.length)];
       const minY = app.screen.height - app.screen.height / heightMargin;
@@ -241,7 +233,7 @@ function startSprites (app) {
 
       TweenLite.set(sprite, {
         pixi: {
-          x: Math.floor(Math.random() * (maxX - minX + 1) + minX),
+          x: x,
           y: Math.floor(Math.random() * (maxY - minY + 1) + minY)
         },
         alpha: 0
@@ -306,32 +298,32 @@ function startSprites (app) {
     })
 
     const tl = new TimelineMax()
-      .to(richText, 2, { alpha: 1 })
+      .to(richText, 1, { alpha: 1 })
       .to(richText, 2, { alpha: 0 })
       .addLabel("skylinesAppear")
-      .to(worldAboveText, 3, { alpha: 1 }, "skylinesAppear")
+      .to(worldAboveText, 1, { alpha: 1 }, "skylinesAppear")
       .to(skyline, 1, { alpha: 1 }, "skylinesAppear")
       .to(skylineBackground, 3, { alpha: 1 }, "-=1")
       .to(worldAboveText, 2, { alpha: 0 })
       .addLabel("skylinesDisappear")
       .to(skylineBackground, 5, { pixi: { y: 0 } }, "skylinesDisappear")
       .to(skyline, 5, { pixi: { y: 0 } }, "skylinesDisappear")
-      .to(worldBelowText, 2, { alpha: 1 }, "-=1")
+      .to(worldBelowText, 1, { alpha: 1 }, "-=1")
       .to(worldBelowText, 2, { alpha: 0 })
-      .to(far, 4, { alpha: 1, pixi: { y: app.screen.height } })
+      .to(far, 3, { alpha: 1, pixi: { y: 0 } })
       .to(clamsText, 1, { alpha: 1 }, "-=1")
       .addLabel("clams")
-      .to(clamsText, 1, { alpha: 0 })
+      .to(clamsText, 2, { alpha: 0 })
       .add(clamTimeline)
-      .to(battleText, 2, { alpha: 1 })
-      .to(battleText, 1, { alpha: 0 })
+      .to(battleText, 1, { alpha: 1 })
+      .to(battleText, 2, { alpha: 0 })
       .addLabel("clamsOutline")
       .add(clamOutlineTimeline)
-      .to(thisText, 2, { alpha: 1 })
-      .to(thisText, 1, { alpha: 0 })
+      .to(thisText, 1, { alpha: 1 })
+      .to(thisText, 2, { alpha: 0 })
       .addLabel("clamsAfterOutline")
-      .to(isText, 2, { alpha: 1 }, "clamsAfterOutline")
-      .to(isText, 1, { alpha: 0 })
+      .to(isText, 1, { alpha: 1 }, "clamsAfterOutline")
+      .to(isText, 2, { alpha: 0 })
       .staggerTo(clams, 0.5, { alpha: 0 }, 0.5, "clamsAfterOutline")
       .addLabel("battleInfoAppears")
       .to("#skip", 0, { visibility: "hidden" })

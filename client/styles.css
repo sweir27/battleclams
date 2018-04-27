@@ -74,6 +74,54 @@ a {
   height: 570px;
 }
 
+.clam-card {
+  margin: 50px auto;
+  display: flex;
+  max-width: 850px;
+  align-items: center;
+}
+
+.clam-result {
+  margin-right: 20px;
+  text-align: center;
+  width: 50%;
+}
+
+img.clam-result-img {
+  max-width: 400px;
+  max-height: 400px;
+  height: auto;
+}
+
+.clam-description {
+  font-family: 'Georgia, Times, Serif';
+  color: white;
+  font-size: 18px;
+  max-width: 300px;
+  min-width: 250px;
+}
+
+@media (max-width: 450px) {
+  .clam-card {
+    display: block;
+    margin-top: 30px;
+  }
+
+  .clam-result {
+    margin-bottom: 20px;
+    margin-right: 0px;
+  }
+
+  img.clam-result-img {
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .clam-description {
+    margin: 0 auto;
+  }
+}
+
 img.card-background-image {
   width: 100%;
   height: 100%;
@@ -91,7 +139,6 @@ img.card-background-image {
   color: white;
   max-width: 300px;
   position: relative;
-  /* height: 100px; */
 }
 
 .answers {

@@ -10,11 +10,15 @@ class ClamContainer extends React.Component {
   render() {
     const selectedClam = clams.filter((cl) => cl.id === this.props.match.params.type)[0]
 
-    return (
-      <div className='clam-container'>
+    return <div className="clam-container">
         <Title title={`You got: ${selectedClam.name}!`} />
-      </div>
-    )
+        <div className="clam-card">
+          <div className="clam-result">
+            <img className="clam-result-img" src={`/images/${selectedClam.img}`} />
+          </div>
+          <div className="clam-description">{selectedClam.description}</div>
+        </div>
+      </div>;
   }
 }
 
