@@ -102,6 +102,18 @@ img.clam-result-img {
 }
 
 @media (max-width: 450px) {
+  .battleclam-container {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .question {
+    font-size: 20px;
+  }
+
   .clam-card {
     display: block;
     margin-top: 30px;
