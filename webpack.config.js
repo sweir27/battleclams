@@ -42,11 +42,6 @@ module.exports = {
         }
       },
       {
-        test: /\.css/,
-        include: /client/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }]
-      },
-      {
         test: /\.(png|jpg)$/,
         loader: "url-loader"
       }

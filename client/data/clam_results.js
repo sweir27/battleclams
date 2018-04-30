@@ -1,6 +1,6 @@
 export default [
   {
-    name: "hard clam",
+    name: "Hard clam",
     id: "hard-clam",
     description:
       "The hard clam (Mercenaria mercenaria), also known as a quahog (or quahaug), round clam, or hard-shell (or hard-shelled) clam, is an edible marine bivalve mollusc that is native to the eastern shores of North America and Central America, from Prince Edward Island to the Yucatán Peninsula. Hard clams are notorious tough customers-- stubborn but loyal.",
@@ -21,7 +21,7 @@ export default [
     }
   },
   {
-    name: "giant clam",
+    name: "Giant clam",
     id: "giant-clam",
     img: "clams/giant-clam.png",
     description:
@@ -42,7 +42,7 @@ export default [
     }
   },
   {
-    name: "razor clam",
+    name: "Razor clam",
     id: "razor-clam",
     img: "clams/razor-clam.png",
     description:
@@ -63,7 +63,7 @@ export default [
     }
   },
   {
-    name: "blue mussel",
+    name: "Blue mussel",
     id: "blue-mussel",
     img: "clams/blue-mussel.png",
     description:
@@ -84,7 +84,7 @@ export default [
     }
   },
   {
-    name: "warty venus",
+    name: "Warty venus",
     id: "warty-venus",
     img: "clams/warty-venus.png",
     description:
@@ -105,7 +105,7 @@ export default [
     }
   },
   {
-    name: "grooved carpet shell",
+    name: "Grooved carpet shell",
     id: "grooved-carpet-shell",
     img: "clams/grooved-carpet-shell.png",
     description:
@@ -126,7 +126,7 @@ export default [
     }
   },
   {
-    name: "pacific oyster",
+    name: "Pacific oyster",
     id: "pacific-oyster",
     img: "clams/pacific-oyster.png",
     description:
@@ -147,7 +147,7 @@ export default [
     }
   },
   {
-    name: "common cockle",
+    name: "Common cockle",
     id: "common-cockle",
     img: "clams/common-cockle.png",
     description:
@@ -168,7 +168,7 @@ export default [
     }
   },
   {
-    name: "atlantic surf clam",
+    name: "Atlantic surf clam",
     id: "atlantic-surf-clam",
     img: "clams/atlantic-surf-clam.png",
     description:
@@ -189,7 +189,7 @@ export default [
     }
   },
   {
-    name: "perna viridis",
+    name: "Perna viridis",
     id: "perna-viridis",
     img: "clams/perna-viridis.png",
     description:
@@ -210,7 +210,7 @@ export default [
     }
   },
   {
-    name: "great scallop",
+    name: "Great scallop",
     id: "great-scallop",
     img: "clams/great-scallop.png",
     description:
@@ -231,7 +231,7 @@ export default [
     }
   },
   {
-    name: "maxima clam",
+    name: "Maxima clam",
     id: "maxima-clam",
     img: "clams/maxima-clam.png",
     description:
@@ -252,7 +252,7 @@ export default [
     }
   },
   {
-    name: "tuatua",
+    name: "Tuatua",
     id: "tuatua",
     img: "clams/tuatua.png",
     description:
@@ -273,7 +273,7 @@ export default [
     }
   },
   {
-    name: "blood clam",
+    name: "Blood clam",
     id: "blood-clam",
     img: "clams/blood-clam.png",
     description:
@@ -294,7 +294,7 @@ export default [
     }
   },
   {
-    name: "pearl oyster",
+    name: "Pearl oyster",
     id: "pearl-oyster",
     img: "clams/pearl-oyster.png",
     description:
@@ -315,7 +315,7 @@ export default [
     }
   },
   {
-    name: "pinna nobilis",
+    name: "Pinna nobilis",
     id: "pinna-nobilis",
     img: "clams/pinna-nobilis.png",
     description:
